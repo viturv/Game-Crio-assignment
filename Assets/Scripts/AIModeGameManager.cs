@@ -4,21 +4,21 @@ using TMPro;
 
 public class AIModeGameManager : MonoBehaviour
 {
-    public Button[] buttons; // Array of buttons in the grid
+    public Button[] buttons; // No of box for the grid
     private string currentPlayer = "X"; // Track the current player (X for Player, O for AI)
     private bool gameOver = false; // Game state
     public TextMeshProUGUI gameOverText; // Reference to the UI text for displaying game result
-    public Button resetButton; // Reference to the Reset Button
+    public Button resetButton; // Restrat Button
 
     void Start()
     {
-        // Ensure that your buttons array has the correct number of elements (9)
+        // Size of button array(Number of Box) should be 9 
         if (buttons.Length != 9)
         {
             Debug.LogError("Buttons array must have 9 buttons!");
         }
 
-        // Initialize button texts
+        // Intializing Button Value to empty
         foreach (Button button in buttons)
         {
             button.GetComponentInChildren<TextMeshProUGUI>().text = ""; // Clear the button text
@@ -28,11 +28,11 @@ public class AIModeGameManager : MonoBehaviour
 
     public void OnButtonClick(int index)
     {
-        // Ensure the game isn't over, the button is not already clicked, and it's the player's turn
+        // Check that is game over or not, button is pressed before or not, and if AI has taken turn then it's players turn
         if (gameOver || buttons[index].GetComponentInChildren<TextMeshProUGUI>().text != "" || currentPlayer == "O")
             return; // Disable player input during AI's turn
 
-        // Set the current player's mark (X for Player)
+        // It will Update text value on the basis of the turn X for player and O for AI
         buttons[index].GetComponentInChildren<TextMeshProUGUI>().text = currentPlayer;
 
         // Check for a winner
@@ -48,11 +48,11 @@ public class AIModeGameManager : MonoBehaviour
 
     void AI_Move()
     {
-        // Disable buttons to prevent player from making a move during AI's turn
+        // Button are disable during the AI's turn to avaoid player taking turn
         SetButtonsInteractable(false);
 
-        // Wait for a brief moment to simulate thinking time
-        Invoke("MakeAIMove", 0.5f); // Invoke AI move after delay
+        // Wait for few time before making the move
+        Invoke("MakeAIMove", 0.5f); // MakeAIMove method will be called after Invoke (here after 0.5 second)
     }
 
     void MakeAIMove()
@@ -72,7 +72,7 @@ public class AIModeGameManager : MonoBehaviour
         if (!gameOver)
         {
             currentPlayer = "X"; // Switch to Player
-            SetButtonsInteractable(true); // Re-enable buttons for player
+            SetButtonsInteractable(true); // Enables Buttons after AI move
         }
     }
 
